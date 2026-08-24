@@ -513,6 +513,6 @@ variable "version_control_system_type" {
 
 variable "ignore_changes" {
   description = "Changes to be ignored in terraform apply."
-  type = list(string)
+  type = set(string)
   default = [resourcePredictions]
 }

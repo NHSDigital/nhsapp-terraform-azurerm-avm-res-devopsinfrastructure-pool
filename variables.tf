@@ -510,9 +510,3 @@ variable "version_control_system_type" {
     error_message = "The version_control_system_type must be one of: 'azuredevops' or 'github'."
   }
 }
-
-variable "ignore_changes" {
-  description = "Changes to be ignored in terraform apply."
-  type = set(string)
-  default = [resourcePredictions]
-}

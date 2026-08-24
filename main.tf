@@ -71,7 +71,9 @@ resource "azapi_resource" "managed_devops_pool" {
     update = try(var.managed_devops_pool_timeouts.update, null)
   }
   lifecycle {
-    ignore_changes = [resourcePredictions]
+    ignore_changes = [
+      body.properties.agentProfile.resourcePredictions
+    ]
   }
 }
 

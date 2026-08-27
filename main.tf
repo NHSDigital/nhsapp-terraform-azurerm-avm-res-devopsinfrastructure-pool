@@ -72,7 +72,8 @@ resource "azapi_resource" "managed_devops_pool" {
   }
   lifecycle {
     ignore_changes = [
-      body.properties.agentProfile.resourcePredictions
+      body.properties.agentProfile,
+      output
     ]
   }
 }

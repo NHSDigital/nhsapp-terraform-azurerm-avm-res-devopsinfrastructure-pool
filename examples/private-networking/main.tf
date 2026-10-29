@@ -9,8 +9,8 @@ terraform {
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "~> 2.0"
+      source  = "Azure/azapi"
+      version = "~> 2.12"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -24,9 +24,14 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
+    # tflint-ignore: terraform_unused_required_providers
+    modtm = {
+      source  = "registry.terraform.io/azure/modtm"
+      version = "~> 0.3"
+    }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.6.3"
+      version = "~> 3.0"
     }
   }
 }
@@ -65,6 +70,7 @@ resource "azuredevops_git_repository" "this" {
   project_id     = azuredevops_project.this.id
   name           = local.repository_name
   default_branch = local.default_branch
+
   initialization {
     init_type = "Clean"
   }
@@ -100,6 +106,7 @@ resource "azuredevops_build_definition" "this" {
 data "azuredevops_agent_queue" "this" {
   project_id = azuredevops_project.this.id
   name       = module.managed_devops_pool.name
+
   depends_on = [module.managed_devops_pool]
 }
 
@@ -261,7 +268,10 @@ module "managed_devops_pool" {
 # Region helpers
 module "regions" {
   source  = "Azure/avm-utl-regions/azurerm"
-  version = "0.5.2"
+  version = "0.13.0"
+
+  location         = var.location
+  enable_telemetry = var.enable_telemetry
 }
 
 resource "random_integer" "region_index" {
